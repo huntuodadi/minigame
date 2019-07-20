@@ -1,3 +1,3 @@
 import './libs/weapp-adapter';
-import main from './src/main';
-main.init();
+import Main from './src/main';
+Main.init();
