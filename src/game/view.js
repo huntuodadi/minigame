@@ -9,13 +9,21 @@ class GameView {
     showGameOverPage = () => {
         this.gameOverPage.show();
     }
+    showGamePage = () => {
+        this.gameOverPage.hide();
+        this.gamePage.restart();
+        this.gamePage.show();
+    }
     restartGame = () => {
         this.gamePage.restart();
     }
 
     initGameOverPage(callbacks) {
         this.gameOverPage = new GameOverPage(callbacks);
-        this.gameOverPage.init();
+        console.log('scene:', this.gamePage.scene);
+        this.gameOverPage.init({
+            scene: this.gamePage.scene
+        });
     }
 
     initGamePage(callbacks) {
