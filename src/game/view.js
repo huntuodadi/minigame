@@ -7,6 +7,7 @@ class GameView {
     }
 
     showGameOverPage = () => {
+        this.gamePage.hide();
         this.gameOverPage.show();
     }
     showGamePage = () => {

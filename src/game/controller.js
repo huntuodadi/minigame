@@ -33,8 +33,8 @@ class GameController {
                 this.gameModel.setStage('game-over');
             }
         };
-        const gameOverPageCallbacks = {
-            gameRestart: this.restartGame
+        const gameOverPageCallbacks = () => {
+            this.gameModel.setStage('game');
         }
         this.gameView.initGamePage(gamePageCallbacks);
         this.gameView.initGameOverPage(gameOverPageCallbacks);

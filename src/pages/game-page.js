@@ -34,13 +34,14 @@ export default class GamePage {
         })
         // 组成物体并添加到场景中
         const mesh = new THREE.Mesh(geometry, material)
+        this.mesh = mesh;
         mesh.position.set(0, 0, 1) // 设置物体在场景中的位置
 
         // helper
         const axesHelper = new THREE.AxesHelper(100);
         // scene.add(axesHelper);
 
-        // scene.add(mesh)
+        scene.add(mesh)
         camera.position.set(0, 0, 0) // 相机位置
         camera.lookAt(new THREE.Vector3(0, 0, 1)) // 让相机从0, 0, 0 看向 0, 0, -200
         renderer.setClearColor(new THREE.Color('#fff')) // 设置背景色
@@ -50,7 +51,17 @@ export default class GamePage {
          renderer.render(scene, camera)
          requestAnimationFrame(render)
         }
+        setTimeout(() => {
+            this.callbacks['showGameOverPage']();
+        }, 2000);
         render();
+    }
+
+    show() {
+        this.mesh.visible = true;
+    }
+    hide() {
+        this.mesh.visible = false;
     }
     restart() {
         console.log('restart game page');

@@ -33,10 +33,16 @@ export default class GameOverPage {
         this.context.fillText('Game Over', (window.innerWidth - 200) / 2 + 50, (window.innerHeight - 100) / 2 + 50, 200, 100);
         this.texture.needsUpdate = true;
         console.log('obj:', this.obj);
+        this.obj.visible = false;
         this.scene.add(this.obj);
     }
 
     show() {
         console.log('show game over page');
+        this.obj.visible = true;
+    }
+
+    hide() {
+        this.obj.visible = false;
     }
 }
