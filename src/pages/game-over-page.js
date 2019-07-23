@@ -32,7 +32,7 @@ export default class GameOverPage {
         this.context.font = '20px Georgia';
         this.context.fillText('Game Over', (window.innerWidth - 200) / 2 + 50, (window.innerHeight - 100) / 2 + 50, 200, 100);
         this.texture.needsUpdate = true;
-        console.log('obj:', this.obj);
+        console.log('scnen:', this.scene);
         this.obj.visible = false;
         this.scene.add(this.obj);
     }
