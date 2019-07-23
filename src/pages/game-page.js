@@ -1,14 +1,15 @@
 import {scene} from '../scene/index';
+import Cuboid from '../block/cuboid';
+import Cylinder from '../block/cylinder';
 
 export default class GamePage {
     constructor(callbacks) {
         this.callbacks = callbacks;
     }
     init() {
-        console.log('game page scene:', scene);
         this.scene = scene;
         this.scene.init();
-        console.log('scene:', this.scene);
+        this.addInitBlock();
         this.render();
     }
 
@@ -17,13 +18,10 @@ export default class GamePage {
         requestAnimationFrame(this.render.bind(this));
     }
 
-    show() {
-        this.mesh.visible = true;
-    }
-    hide() {
-        this.mesh.visible = false;
-    }
-    restart() {
-        console.log('restart game page');
+    addInitBlock() {
+        const cuboidBlock = new Cuboid(-15, 0, 0);
+        const cylinderBlock = new Cylinder(23, 0, 0);
+        this.scene.instance.add(cuboidBlock.instance);
+        this.scene.instance.add(cylinderBlock.instance);
     }
 }
