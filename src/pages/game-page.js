@@ -16,7 +16,7 @@ export default class GamePage {
     render() {
         this.scene.render();
         requestAnimationFrame(this.render.bind(this));
-    }
+    } 
 
     addInitBlock() {
         const cuboidBlock = new Cuboid(-15, 0, 0);
