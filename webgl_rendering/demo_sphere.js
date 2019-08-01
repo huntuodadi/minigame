@@ -161,7 +161,7 @@ var n = initVertexBuffers(gl)
 
 gl.clearColor(0, 0, 0, 1)
 
-gl.enable(gl.DEPTH_TEST);
+gl.enable(gl.DEPTH_TEST); 
 
 // Get the storage location of u_MvpMatrix
 var u_MvpMatrix = gl.getUniformLocation(gl.program, 'u_MvpMatrix');
