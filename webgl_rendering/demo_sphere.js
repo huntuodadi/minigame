@@ -29,6 +29,7 @@ VSHADER_SOURCE =
     '  float k = 1.0;\n' +
     '  vec3 specular = k * pow(nDotView, shininess) * a_Color.rgb;\n' +    
     '  v_Color = vec4(diffuse + ambient + specular, a_Color.a);\n' +
+    // ' v_Color = a_Color;\n' +
     '}\n';
 
 FSHADER_SOURCE =
@@ -76,6 +77,8 @@ function initVertexBuffers (gl) {
     var colors = [];
     var indices = [];
     // Generate coordinates
+    // 先以y轴正方向为起点逆时针切割半圆13次，每次切割形成的平行于z轴的圆
+    // 再从x轴父方向为以前逆时针切割整圆13次
     for (j = 0; j <= SPHERE_DIV; j++) {
       aj = j * Math.PI / SPHERE_DIV;
       sj = Math.sin(aj);
