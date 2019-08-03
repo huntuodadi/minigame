@@ -175,10 +175,11 @@ mvpMatrix.setPerspective(30, 1, 1, 100);
 mvpMatrix.lookAt(3, 3, 7, 0, 0, 0, 0, 1, 0);
 gl.uniformMatrix4fv(u_MvpMatrix, false, mvpMatrix.elements);
 
-// set directional light
+// set directional light 平行光
 var u_LightColor = gl.getUniformLocation(gl.program, 'u_LightColor');
 gl.uniform3f(u_LightColor, 1.0, 1.0, 1.0);
 
+// 环境光
 var u_LightColorAmbient = gl.getUniformLocation(gl.program, 'u_LightColorAmbient');
 gl.uniform3f(u_LightColorAmbient, 0.2, 0.2, 0.2);
 
