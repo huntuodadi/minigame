@@ -28,7 +28,7 @@ VSHADER_SOURCE =
     '  float shininess = 20.0;\n' +
     '  float k = 1.0;\n' +
     '  vec3 specular = k * pow(nDotView, shininess) * a_Color.rgb;\n' +    
-    '  v_Color = vec4(diffuse + ambient + specular, a_Color.a);\n' +
+    '  v_Color = vec4(diffuse + ambient + specular, 1);\n' +
     // ' v_Color = a_Color;\n' +
     '}\n';
 
