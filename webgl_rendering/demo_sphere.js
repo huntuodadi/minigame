@@ -4,7 +4,7 @@ var gl = canvas.getContext('webgl')
 var program = gl.createProgram()
 
 var VSHADER_SOURCE, FSHADER_SOURCE
-
+// diffuse 漫反射 ambient
 VSHADER_SOURCE =
     'attribute vec4 a_Position;\n' +
     'attribute vec4 a_Color;\n' +
