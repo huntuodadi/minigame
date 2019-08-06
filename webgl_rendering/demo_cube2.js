@@ -7,14 +7,14 @@ var VSHADER_SOURCE, FSHADER_SOURCE
 
 VSHADER_SOURCE =
     'attribute vec4 a_Position;\n' +
-    'attribute vec4 a_Color;\n' +
     'attribute vec4 a_Normal;\n' +
+    'attribute vec2 a_TexCoord;\n' +
     'uniform mat4 u_MvpMatrix;\n' +
-    'varying vec4 v_Color;\n' +
     'varying vec4 v_Normal;\n' +
+    'varying vec2 v_TexCoord;\n'
     'void main() {\n' +
     '  gl_Position = u_MvpMatrix * a_Position;\n' +
-    '  v_Color = a_Color;\n' +
+    ' v_TexCoord = a_TexCoord;\n' +
     '  v_Normal = a_Normal;\n' +
     '}\n';
 
@@ -25,14 +25,16 @@ FSHADER_SOURCE =
     'uniform vec3 u_LightColor;\n' +
     'uniform vec3 u_LightDir;\n' +
     'uniform vec3 u_LightColorAmbient;\n' +
-    'varying vec4 v_Color;\n' +
+    'uniform sampler2D u_Sampler;\n' +
     'varying vec4 v_Normal;\n' +
+    'varying vec2 v_TexCoord;\n'
     'void main() {\n' +
+    '  vec4 t_Color = texture2D(u_Sampler, v_TexCoord);\n' +
     '  vec3 normal = normalize(vec3(v_Normal));\n' +
     '  float cos = max(dot(u_LightDir, normal), 0.0);\n' +
-    '  vec3 diffuse = u_LightColor * v_Color.rgb * cos;\n' +
-    '  vec3 ambient = u_LightColorAmbient * v_Color.rgb;\n' +
-    '  vec4 r_Color = vec4(diffuse + ambient, v_Color.a);\n'+
+    '  vec3 diffuse = u_LightColor * t_Color.rgb * cos;\n' +
+    '  vec3 ambient = u_LightColorAmbient * t_Color.rgb;\n' +
+    '  vec4 r_Color = vec4(diffuse + ambient, t_Color.a);\n'+
     '  gl_FragColor = r_Color;\n' +
     '}\n';
 
