@@ -163,6 +163,8 @@ function normalizeVector (vector) {
 // write the positions of vertices to a vertex shader
 var n = initVertexBuffers(gl)
 
+initTexture(gl, n);
+
 gl.clearColor(0, 0, 0, 1)
 
 gl.enable(gl.DEPTH_TEST);
@@ -194,6 +196,36 @@ function draw () {
     // Draw the cube
     gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_BYTE, 0);
 
+}
+
+function initTexture(gl, n) {
+  var texture = gl.createTexture();
+  if(!texture) {
+    console.log('failed to create texture');
+    return false;
+  }
+  var u_Sampler = gl.getUniformLocation(gl.program, 'u_Sampler');
+  if(!u_Sampler) {
+    console.log('failed to get u_Sampler');
+    return false;
+  }
+  var image = new Image();
+  image.onload = function() {
+    loadTexture(gl, n, texture, u_Sampler, image)
+  }
+  image.src = './wall.jpg';
+}
+
+function loadTexture(gl, n, texture, u_Sampler, image) {
+  // 将坐标延y轴翻转 因为canvas左上是00点，webgl是左下
+  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
+  gl.activeTexture(gl.TEXTURE1);
+  // 绑定纹理区域到texure对象
+  gl.bindTexture(gl.TEXTURE_2D, texture);
+  // 纹理映射类型 
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+  // 将image放到纹理区域中
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, image)
 }
 
 tick()
