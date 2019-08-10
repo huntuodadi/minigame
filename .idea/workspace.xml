@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="948ad8ed-bd17-4cc1-953a-afec5a2e88e3" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgl_rendering/demo_cube2.js" beforeDir="false" afterPath="$PROJECT_DIR$/webgl_rendering/demo_cube2.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webgl_rendering/demo_texture_cube.js" beforeDir="false" afterPath="$PROJECT_DIR$/webgl_rendering/demo_texture_cube.js" afterDir="false" />
-    </list>
+    <list default="true" id="948ad8ed-bd17-4cc1-953a-afec5a2e88e3" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -36,11 +32,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="demo_cube2.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="demo_cube2.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/webgl_rendering/demo_cube2.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="651">
-              <caret line="168" column="70" lean-forward="true" selection-start-line="168" selection-start-column="70" selection-end-line="168" selection-end-column="70" />
+            <state relative-caret-position="846">
+              <caret line="181" column="70" lean-forward="true" selection-start-line="181" selection-start-column="70" selection-end-line="181" selection-end-column="70" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="demo_shadow_cube.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/webgl_rendering/demo_shadow_cube.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="10" column="7" lean-forward="true" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="7" />
             </state>
           </provider>
         </entry>
@@ -66,7 +71,7 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
+  <component name="ProjectFrameBounds">
     <option name="y" value="23" />
     <option name="width" value="1680" />
     <option name="height" value="959" />
@@ -124,15 +129,15 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1565101129269</updated>
-      <workItem from="1565101132938" duration="493000" />
+      <workItem from="1565101132938" duration="581000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="493000" />
+    <option name="totallyTimeSpent" value="581000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1680" height="959" extended-state="1" />
+    <frame x="0" y="23" width="1680" height="959" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
@@ -177,8 +182,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/webgl_rendering/demo_cube2.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="651">
-          <caret line="168" column="70" lean-forward="true" selection-start-line="168" selection-start-column="70" selection-end-line="168" selection-end-column="70" />
+        <state relative-caret-position="846">
+          <caret line="181" column="70" lean-forward="true" selection-start-line="181" selection-start-column="70" selection-end-line="181" selection-end-column="70" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webgl_rendering/demo_shadow_cube.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="7" lean-forward="true" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="7" />
         </state>
       </provider>
     </entry>
