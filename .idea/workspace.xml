@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="948ad8ed-bd17-4cc1-953a-afec5a2e88e3" name="Default" comment="" />
+    <list default="true" id="948ad8ed-bd17-4cc1-953a-afec5a2e88e3" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/webgl_rendering/demo_shadow_cube.js" beforeDir="false" afterPath="$PROJECT_DIR$/webgl_rendering/demo_shadow_cube.js" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -129,12 +131,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1565101129269</updated>
-      <workItem from="1565101132938" duration="581000" />
+      <workItem from="1565101132938" duration="798000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="581000" />
+    <option name="totallyTimeSpent" value="798000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="959" extended-state="0" />

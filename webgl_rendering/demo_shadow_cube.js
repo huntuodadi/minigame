@@ -263,7 +263,7 @@ var rotateMatrix = new Matrix4();
 var u_LightColor = gl.getUniformLocation(gl.program, 'u_LightColor');
 gl.uniform3f(u_LightColor, 1.0, 1.0, 1.0);
 
-var dir = normalizeVector([0.0, 10.0, 1.0]);
+var dir = normalizeVector([0.0, 100.0, -100.0]);
 var u_LightDir = gl.getUniformLocation(gl.program, 'u_LightDir');
 gl.uniform3f(u_LightDir, dir[0], dir[1], dir[2]);
 
