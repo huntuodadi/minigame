@@ -1,5 +1,6 @@
 import camera from './camera';
 import light from './light';
+import background from '../objects/background';
 class Scene {
     constructor() {
         this.instance = null;
@@ -23,6 +24,11 @@ class Scene {
         for (let lightType in this.light.instances) {
             this.instance.add(this.light.instances[lightType]);
         }
+
+        this.background = background;
+        this.background.init();
+        this.background.instance.position.z = -84;
+        this.camera.instance.add(this.background.instance);
     }
 
     render() {
