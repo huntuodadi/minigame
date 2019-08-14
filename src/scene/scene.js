@@ -12,6 +12,11 @@ class Scene {
             antilias: true,
             preserveDrawingBuffer: true
         });
+
+        // 启用阴影
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFShadowMap;
+
         this.camera = camera;
         this.light = light;
         this.camera.init();

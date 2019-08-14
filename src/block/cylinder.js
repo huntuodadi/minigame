@@ -8,6 +8,10 @@ export default class Cylinder extends BaseBlock{
             color: 0xffffff
         });
         this.instance = new THREE.Mesh(geometry, material);
+        // 接受阴影
+        this.instance.receiveShadow = true;
+        // 投射阴影
+        this.instance.castShadow = true;
         this.instance.name = 'block';
         this.x = x;
         this.y = y;
