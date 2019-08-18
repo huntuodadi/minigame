@@ -2,7 +2,7 @@ import {scene} from '../scene/index';
 import Cuboid from '../block/cuboid';
 import Cylinder from '../block/cylinder';
 import ground from '../objects/ground';
-
+import bottle from '../objects/bottle';
 export default class GamePage {
     constructor(callbacks) {
         this.callbacks = callbacks;
@@ -10,11 +10,14 @@ export default class GamePage {
     init() {
         this.scene = scene;
         this.ground = ground;
+        this.bottle = bottle;
         this.ground.init();
         this.scene.init();
+        this.bottle.init();
         this.addInitBlock();
         this.addGround();
         this.render();
+        this.addBottle();
     }
 
     render() {
@@ -31,5 +34,9 @@ export default class GamePage {
 
     addGround() {
         this.scene.instance.add(this.ground.instance);
+    }
+
+    addBottle() {
+        this.scene.instance.add(this.bottle.instance);
     }
 }
