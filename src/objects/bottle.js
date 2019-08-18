@@ -6,6 +6,7 @@ class Bottle {
     }
 
     init () {
+        const loader = new THREE.TextureLoader();
         // this.obj 控制bottle的位置等
         this.obj = new THREE.Object3D();
         this.obj.name = 'bottle';
@@ -13,8 +14,11 @@ class Bottle {
 
         // this.bottle 仅进行各个分部的组合
         this.bottle = new THREE.Object3D();
-        const basicMaterial = new THREE.MeshPhongMaterial({
-            color: 0xff0000
+        console.log('load texture', loader.load);
+        const specularTexture = loader.load('/game/res/images/head.png');
+        console.log('loaded');
+        const specularMaterial = new THREE.MeshBasicMaterial({
+            map: specularTexture
         });
 
         const headRadius = bottleConf.headRadius;
@@ -23,24 +27,32 @@ class Bottle {
         // 头部
         this.head = new THREE.Mesh(
             new THREE.OctahedronGeometry(headRadius),
-            basicMaterial
+            specularMaterial
         );
 
         this.head.castShadow = true;
         // 底部
+        const bottomTexture = loader.load('/game/res/images/bottom.png');
+        const bottomMaterial = new THREE.MeshBasicMaterial({
+            map: bottomTexture
+        });
         this.bottom = new THREE.Mesh(
             new THREE.CylinderGeometry(
                 0.62857 * headRadius, 0.907143 * headRadius, 1.91423 * headRadius, 20
             ),
-            basicMaterial
+            bottomMaterial
         );
         this.bottom.castShadow = true;
         // 中部
+        const middleTexture = loader.load('/game/res/images/bottom.png');
+        const middleMaterial = new THREE.MeshBasicMaterial({
+            map: middleTexture
+        });
         this.middle = new THREE.Mesh(
             new THREE.CylinderGeometry(
                 headRadius / 1.4, headRadius / 1.44 * 0.88, headRadius * 1.2, 20
             ),
-            basicMaterial
+            middleMaterial
         );
         this.middle.castShadow = true;
         this.middle.position.y = 1.3857 * headRadius;
@@ -49,7 +61,7 @@ class Bottle {
         topGeometry.scale(1, 0.54, 1);
         this.top = new THREE.Mesh(
             topGeometry,
-            basicMaterial
+            specularMaterial
         );
         this.top.castShadow = true;
         this.top.position.y = 1.8143 * headRadius;
