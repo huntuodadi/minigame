@@ -32,7 +32,7 @@ class Bottle {
 
         this.head.castShadow = true;
         // 底部
-        const bottomTexture = loader.load('/game/res/images/bottom.png');
+        const bottomTexture = loader.load('/game/res/images/top.png');
         const bottomMaterial = new THREE.MeshBasicMaterial({
             map: bottomTexture
         });
@@ -44,7 +44,7 @@ class Bottle {
         );
         this.bottom.castShadow = true;
         // 中部
-        const middleTexture = loader.load('/game/res/images/bottom.png');
+        const middleTexture = loader.load('/game/res/images/middle.png');
         const middleMaterial = new THREE.MeshBasicMaterial({
             map: middleTexture
         });
