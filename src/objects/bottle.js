@@ -1,41 +1,36 @@
 import bottleConf from '../../confs/bottle-conf';
 import blockConf from '../../confs/block-conf';
+import animation from '../../libs/animation';
+const {customAnimation} = animation;
 class Bottle {
     constructor (x, y, z) {
 
     }
 
     init () {
-        const loader = new THREE.TextureLoader();
         // this.obj 控制bottle的位置等
         this.obj = new THREE.Object3D();
         this.obj.name = 'bottle';
-        this.obj.position.set(bottleConf.initPosition.x, bottleConf.initPosition.y + blockConf.height / 2, bottleConf.initPosition.z);
+        this.obj.position.set(bottleConf.initPosition.x, bottleConf.initPosition.y + 30, bottleConf.initPosition.z);
 
         // this.bottle 仅进行各个分部的组合
         this.bottle = new THREE.Object3D();
-        console.log('load texture', loader.load);
-        const specularTexture = loader.load('/game/res/images/head.png');
-        console.log('loaded');
-        const specularMaterial = new THREE.MeshBasicMaterial({
-            map: specularTexture
-        });
+        
 
         const headRadius = bottleConf.headRadius;
+
+        const {specularMaterial, middleMaterial, bottomMaterial} = this.loadTexture();
 
 
         // 头部
         this.head = new THREE.Mesh(
             new THREE.OctahedronGeometry(headRadius),
-            specularMaterial
+            bottomMaterial
         );
 
         this.head.castShadow = true;
         // 底部
-        const bottomTexture = loader.load('/game/res/images/top.png');
-        const bottomMaterial = new THREE.MeshBasicMaterial({
-            map: bottomTexture
-        });
+        
         this.bottom = new THREE.Mesh(
             new THREE.CylinderGeometry(
                 0.62857 * headRadius, 0.907143 * headRadius, 1.91423 * headRadius, 20
@@ -44,10 +39,6 @@ class Bottle {
         );
         this.bottom.castShadow = true;
         // 中部
-        const middleTexture = loader.load('/game/res/images/middle.png');
-        const middleMaterial = new THREE.MeshBasicMaterial({
-            map: middleTexture
-        });
         this.middle = new THREE.Mesh(
             new THREE.CylinderGeometry(
                 headRadius / 1.4, headRadius / 1.44 * 0.88, headRadius * 1.2, 20
@@ -80,6 +71,39 @@ class Bottle {
         this.bottle.position.z = 0;
         this.obj.add(this.bottle);
         this.instance = this.obj;
+    }
+
+    loadTexture() {
+        const loader = new THREE.TextureLoader();
+        const specularTexture = loader.load('/game/res/images/head.png');
+        const specularMaterial = new THREE.MeshBasicMaterial({
+            map: specularTexture
+        });
+
+        const middleTexture = loader.load('/game/res/images/top.png');
+        const middleMaterial = new THREE.MeshBasicMaterial({
+            map: middleTexture
+        });
+
+        const bottomTexture = loader.load('/game/res/images/top.png');
+        const bottomMaterial = new THREE.MeshBasicMaterial({
+            map: bottomTexture
+        });
+
+        return {specularMaterial, middleMaterial, bottomMaterial};
+    }
+
+    update() {
+        this.head.rotation.y += 0.06;
+    }
+
+    showUp() {
+        console.log('customAnimation:', customAnimation);
+        customAnimation.to(this.obj.position, {
+            x: bottleConf.initPosition.x, 
+            y: bottleConf.initPosition.y + blockConf.height / 2,
+            z: bottleConf.initPosition.z
+        }, 500, 'Linear');
     }
 }
 
