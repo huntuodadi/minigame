@@ -103,7 +103,7 @@ class Bottle {
             x: bottleConf.initPosition.x, 
             y: bottleConf.initPosition.y + blockConf.height / 2,
             z: bottleConf.initPosition.z
-        }, 500, 'Linear');
+        }, 5, 'Linear');
     }
 }
 

@@ -7,9 +7,11 @@
  * 4. type
 */
 import Tween from './tween';
+let testStartTime, testEndTime;
 
 const customAnimation = {};
 customAnimation.to = function (from ,to, duration, type, callback) {
+  testStartTime = Date.now();
   for(let prop in from) {
     if(from[prop] && to[prop]) {
       console.log('from', prop, from[prop]);
@@ -54,26 +56,34 @@ function TweenAnimation(from, to, duration, type, callback) {
   }
 
   const step = function step() {
-    console.log('start step');
     const currentTime = Date.now();
     const interval = currentTime - lastTime;
-    if(interval <= 17) {
+    lastTime = currentTime;
+    let fps;
+    if(interval) {
+      fps = Math.ceil(1000 / interval); 
+    }else {
+      requestAnimationFrame(step);
+      return;
+    }
+    if(fps >= 30) {
       start++;
     }else{
       // start是指用户卡了多少帧数,
       const _start = Math.floor(interval / 17);
       start = start + _start;
     }
+    // console.log(interval, start, frameCount);
     const value = tweenFn(start, from, to - from, frameCount);
-    console.log('value:', value);
     if(start <= frameCount) {
-      console.log('动画未完成');
       // 动画未完成
       options.callback(value);
       requestAnimationFrame(step);
     }else {
       // 动画结束
       console.log('动画结束');
+      testEndTime = Date.now();
+      console.log('real duration:', (testEndTime - testStartTime) / 1000);
       options.callback(to, true);
     }
   }
