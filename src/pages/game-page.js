@@ -16,8 +16,28 @@ export default class GamePage {
         this.bottle.init();
         this.addInitBlock();
         this.addGround();
-        this.render();
         this.addBottle();
+        this.bindTouchEvent();
+        this.render();
+        
+    }
+
+    bindTouchEvent() {
+        canvas.addEventListener('touchstart', this.touchStartCallBack);
+        canvas.addEventListener('touchend', this.touchEndCallBack);
+    }
+
+    removeTouchEvent() {
+        canvas.removeEventListener('touchstart', this.touchStartCallBack);
+        canvas.removeEventListener('touchend', this.touchEndCallBack);
+    }
+
+    touchStartCallBack() {
+        console.log('touch start call back');
+    }
+
+    touchEndCallBack() {
+        console.log('touch end call back');
     }
 
     render() {

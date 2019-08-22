@@ -66,6 +66,7 @@ function TweenAnimation(from, to, duration, type, callback) {
       requestAnimationFrame(step);
       return;
     }
+    // 如果fps高 那么直接计算下一帧
     if(fps >= 30) {
       start++;
     }else{
