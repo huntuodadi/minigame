@@ -10,18 +10,21 @@ import Tween from './tween';
 let testStartTime, testEndTime;
 
 const customAnimation = {};
-customAnimation.to = function (from ,to, duration, type, callback) {
+customAnimation.to = function (from ,to, duration, type, delay) {
   testStartTime = Date.now();
   for(let prop in from) {
+    setTimeout((function(prop) {
+      return function() {
+        TweenAnimation(from[prop], to[prop], duration, type, (value, complete) => {
+          from[prop] = value;
+          if(complete) {
+            console.log('complete');
+          }
+        });
+      }
+    })(prop), delay * 1000);
     if(from[prop] && to[prop]) {
-      console.log('from', prop, from[prop]);
-      console.log('to', prop, to[prop]);
-      TweenAnimation(from[prop], to[prop], duration, type, (value, complete) => {
-        from[prop] = value;
-        if(complete) {
-          console.log('complete');
-        }
-      });
+      
     }
     
   }

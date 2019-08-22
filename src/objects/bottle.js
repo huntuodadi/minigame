@@ -4,7 +4,8 @@ import animation from '../../libs/animation';
 const {customAnimation} = animation;
 class Bottle {
     constructor (x, y, z) {
-
+        this.direction = 0;
+        this.axis = null; // 当前位置和下一个台子中心的连线
     }
 
     init () {
@@ -15,6 +16,8 @@ class Bottle {
 
         // this.bottle 仅进行各个分部的组合
         this.bottle = new THREE.Object3D();
+
+        this.human = new THREE.Object3D();
         
 
         const headRadius = bottleConf.headRadius;
@@ -64,8 +67,9 @@ class Bottle {
         this.body.add(this.middle);
         this.body.add(this.top);
         this.head.position.y = 3.57143 * bottleConf.headRadius;
-        this.bottle.add(this.head);
-        this.bottle.add(this.body);
+        this.human.add(this.head);
+        this.human.add(this.body);
+        this.bottle.add(this.human);
         this.bottle.position.y = 2.1;
         this.bottle.position.x = 0;
         this.bottle.position.z = 0;
@@ -104,6 +108,20 @@ class Bottle {
             y: bottleConf.initPosition.y + blockConf.height / 2,
             z: bottleConf.initPosition.z
         }, 0.5, 'BounceEaseOut');
+    }
+
+    setDirection(direction, axis) {
+        this.direction = direction;
+        this.axis = axis;
+    }
+
+    rotate() {
+        const scale = 1.4; // 瓶子伸缩
+        if(this.direction === 0) { // 沿x轴跳
+
+        }else if(this.direction === 1) { // 沿y轴跳
+
+        }
     }
 }
 
