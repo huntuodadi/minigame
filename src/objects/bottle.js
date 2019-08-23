@@ -117,8 +117,14 @@ class Bottle {
 
     rotate() {
         const scale = 1.4; // 瓶子伸缩
+        this.human.rotate.x = this.human.rotation.z = 0;
         if(this.direction === 0) { // 沿x轴跳
-
+            customAnimation.to(this.human.rotation, 0.14, {
+                z: this.human.rotate.z - Math.PI
+            });
+            customAnimation.to(this.human.rotation, 0.18, {
+                z: this.human.rotate.z - Math.PI * 2
+            }, 'Linear', 0.14);
         }else if(this.direction === 1) { // 沿y轴跳
 
         }
