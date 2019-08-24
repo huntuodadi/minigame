@@ -6,6 +6,7 @@ import bottle from '../objects/bottle';
 export default class GamePage {
     constructor(callbacks) {
         this.callbacks = callbacks;
+        this.touchStartCallBack = this.touchStartCallBack.bind(this);
     }
     init() {
         this.scene = scene;
@@ -34,6 +35,7 @@ export default class GamePage {
 
     touchStartCallBack() {
         console.log('touch start call back');
+        this.bottle.rotate();
     }
 
     touchEndCallBack() {

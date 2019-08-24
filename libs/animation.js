@@ -10,15 +10,15 @@ import Tween from './tween';
 let testStartTime, testEndTime;
 
 const customAnimation = {};
-customAnimation.to = function (from ,to, duration, type, delay) {
+customAnimation.to = function (from ,duration, to, type = 'Linear', delay) {
   testStartTime = Date.now();
-  for(let prop in from) {
+  for(let prop in to) {
     setTimeout((function(prop) {
       return function() {
         TweenAnimation(from[prop], to[prop], duration, type, (value, complete) => {
           from[prop] = value;
           if(complete) {
-            console.log('complete');
+            
           }
         });
       }
@@ -85,9 +85,8 @@ function TweenAnimation(from, to, duration, type, callback) {
       requestAnimationFrame(step);
     }else {
       // 动画结束
-      console.log('动画结束');
       testEndTime = Date.now();
-      console.log('real duration:', (testEndTime - testStartTime) / 1000);
+      // console.log('real duration:', (testEndTime - testStartTime) / 1000);
       options.callback(to, true);
     }
   }
