@@ -3,6 +3,17 @@ import Cuboid from '../block/cuboid';
 import Cylinder from '../block/cylinder';
 import ground from '../objects/ground';
 import bottle from '../objects/bottle';
+import blockConf from '../../confs/block-conf';
+import gameConf from '../../confs/game-conf';
+import utils from '../utils/index';
+
+const HIT_NEXT_BLOCK_CENTER = 1; 
+const HIT_CURRENT_BLOCK = 2;
+const GAME_OVER_NEXT_BLOCK_BACK = 3;
+const GAME_OVER_CURRENT_BLOCK_BACK = 4;
+const GAME_OVER_NEXT_BLOCK_FRONT = 5;
+const GAME_OVER_BOTH = 6;
+const HIT_NEXT_BLOCK_NORMAL = 7;
 export default class GamePage {
     constructor(callbacks) {
         this.callbacks = callbacks;
@@ -42,7 +53,6 @@ export default class GamePage {
     }
 
     touchEndCallBack = () => {
-        console.log('touch end call back:', this.bottle);
         this.touchEndTime = Date.now();
         const duration = this.touchEndTime - this.touchStartTime;
         this.bottle.velocity.vx = Math.min(duration / 6, 400);
@@ -51,6 +61,8 @@ export default class GamePage {
         this.bottle.velocity.vy = +this.bottle.velocity.vy.toFixed(2);
         console.log('vx:', this.bottle.velocity.vx, 'vy:', this.bottle.velocity.vy);
         this.bottle.stop();
+        const initY = blockConf.height - (1 - this.bottle.scale.y) * blockConf.height;
+        this.hit = this.getHitStatus(this.bottle, this.currentBlock, this.nextBlock, initY);
         this.bottle.rotate();
         this.bottle.jump();
     }
@@ -76,17 +88,17 @@ export default class GamePage {
     } 
 
     addInitBlock() {
-        const cuboidBlock = new Cuboid(-15, 0, 0);
-        const cylinderBlock = new Cylinder(23, 0, 0);
+        this.currentBlock = new Cuboid(-15, 0, 0) 
+        this.scene.instance.add(this.currentBlock.instance)
+        this.nextBlock = new Cylinder(23, 0, 0)
+        this.scene.instance.add(this.nextBlock.instance)
+        const initDirection = 0
         this.targetPosition = {
-            x: 23,
-            y: 0,
-            z: 0
-        };
-        const initPosition = 0;
-        this.scene.instance.add(cuboidBlock.instance);
-        this.scene.instance.add(cylinderBlock.instance);
-        this.setDirection(initPosition);
+        x: 23,
+        y: 0,
+        z: 0
+        }
+        this.setDirection(initDirection)
     }
 
     addGround() {
@@ -96,5 +108,44 @@ export default class GamePage {
 
     addBottle() {
         this.scene.instance.add(this.bottle.instance);
+    }
+
+    getHitStatus(bottle, currentBlock, nextBlock) {
+
+        let flyingTime = 2 * bottle.velocity.vy / gameConf.gravity;
+        flyingTime = flyingTime.toFixed(2);
+        const destination = [];
+        const bottlePosition = new THREE.Vector2(bottle.position.x, bottle.position.z);
+        const translate = new THREE.Vector2(this.axis.x, this.axis.z).setLength(flyingTime * this.bottle.velocity.vx);
+        bottlePosition.add(translate);
+        bottle.destination = [+bottlePosition.x.toFixed(2), +bottlePosition.z.toFixed(2)];
+        destination.push(+bottlePosition.x.toFixed(2), +bottlePosition.z.toFixed(2));
+
+        if (nextBlock) {
+            var nextDiff = Math.pow(destination[0] - nextBlock.instance.position.x, 2) + Math.pow(destination[1] - nextBlock.instance.position.z, 2)
+            var nextPolygon = nextBlock.getVertices()
+            var result1
+            if (utils.pointInPolygon(destination, nextPolygon)) {
+              if (Math.abs(nextDiff) < 5) {
+                return 1
+              } else {
+                return 7
+              }
+            } else if (utils.pointInPolygon([destination[0] - bottleConf.bodyWidth / 2, destination[1]], nextPolygon) || utils.pointInPolygon([destination[0], destination[1] + bottleConf.bodyDepth / 2], nextPolygon)) {
+              result1 = 5
+            } else if (utils.pointInPolygon([destination[0], destination[1] - bottleConf.bodyDepth / 2], nextPolygon) || utils.pointInPolygon([destination[0] + bottleConf.bodyDepth / 2, destination[1]], nextPolygon)) {
+              result1 = 3
+            }
+          }
+      
+          var currentPolygon = currentBlock.getVertices()
+          var result2
+          if (utils.pointInPolygon(destination, currentPolygon)) {
+            return 2
+          } else if (utils.pointInPolygon([destination[0], destination[1] + bottleConf.bodyDepth / 2], currentPolygon) || utils.pointInPolygon([destination[0] - bottleConf.bodyWidth / 2, destination[1]], currentPolygon)) {
+            if (result1) return 6
+            return 4
+          }
+          return result1 || result2 || 0
     }
 }
