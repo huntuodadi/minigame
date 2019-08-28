@@ -2,7 +2,7 @@ import bottleConf from '../../confs/bottle-conf';
 import blockConf from '../../confs/block-conf';
 import animation from '../../libs/animation';
 const {customAnimation} = animation;
-const g = 9.8;
+const g = 700;
 class Bottle {
     constructor (x, y, z) {
         this.direction = 0;
@@ -17,6 +17,7 @@ class Bottle {
         this.status = 'stop';
         this.scale = 1;
         this.flyingTime = 0;
+        this.velocity = {};
         // this.bottle 仅进行各个分部的组合
         this.bottle = new THREE.Object3D();
 
@@ -123,7 +124,7 @@ class Bottle {
         if(this.status == 'shrink') {
             this._shrink();
         }else if(this.status == 'jump') {
-            const tickTime = Date.now(); - this.lastFrameTime;
+            const tickTime = Date.now() - this.lastFrameTime;
             this._jump(tickTime);
         }
         this.head.rotation.y += 0.06;
@@ -131,7 +132,6 @@ class Bottle {
     }
 
     showUp() {
-        console.log('customAnimation:', customAnimation);
         customAnimation.to(this.obj.position, 0.5, {
             x: bottleConf.initPosition.x, 
             y: bottleConf.initPosition.y + blockConf.height / 2,
@@ -155,7 +155,7 @@ class Bottle {
     }
 
     jump = () => {
-        this.state = 'jump';
+        this.status = 'jump';
     }
 
     _jump = (tickTime) => {
@@ -163,18 +163,15 @@ class Bottle {
         this.flyingTime = this.flyingTime + t;
         // 水平方向
         const translateH = this.velocity.vx * t;
-        const translateY = this.velocity.vyf * t - 0.5 * g * t * t - g * this.flyingTime * t;
+        const translateY = this.velocity.vy * t - 0.5 * g * t * t - g * this.flyingTime * t;
         this.obj.translateY(translateY);
         this.obj.translateOnAxis(this.axis, translateH);
     }
 
     rotate = () => {
         const scale = 1.4;
-        console.log('direction:', this.direction);
-        console.log('current rotation:', this.human.rotation);
         this.human.rotation.z = this.human.rotation.x = 0;
         if (this.direction == 0) { // x
-        console.log('rotate');
         customAnimation.to(this.human.rotation, 0.14, { z: this.human.rotation.z - Math.PI })
         customAnimation.to(this.human.rotation, 0.18, { z: this.human.rotation.z - 2 * Math.PI, delay: 0.14 })
         customAnimation.to(this.head.position, 0.1, { y: this.head.position.y + 0.9 * scale, x: this.head.position.x + 0.45 * scale })

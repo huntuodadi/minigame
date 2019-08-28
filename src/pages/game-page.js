@@ -7,6 +7,7 @@ export default class GamePage {
     constructor(callbacks) {
         this.callbacks = callbacks;
         this.touchStartCallBack = this.touchStartCallBack.bind(this);
+        this.targetPosition = {};
     }
     init() {
         this.scene = scene;
@@ -44,8 +45,26 @@ export default class GamePage {
         console.log('touch end call back:', this.bottle);
         this.touchEndTime = Date.now();
         const duration = this.touchEndTime - this.touchStartTime;
+        this.bottle.velocity.vx = Math.min(duration / 6, 400);
+        this.bottle.velocity.vx = +this.bottle.velocity.vx.toFixed(2);
+        this.bottle.velocity.vy = Math.min(150 + duration / 20, 400);
+        this.bottle.velocity.vy = +this.bottle.velocity.vy.toFixed(2);
+        console.log('vx:', this.bottle.velocity.vx, 'vy:', this.bottle.velocity.vy);
         this.bottle.stop();
         this.bottle.rotate();
+        this.bottle.jump();
+    }
+
+    setDirection = (direction) => {
+        console.log('bottle:', this.bottle.instance.position);
+        const currentPosition = {
+            x: this.bottle.instance.position.x,
+            z: this.bottle.instance.position.z
+        };
+
+        this.axis = new THREE.Vector3(this.targetPosition.x - currentPosition.x, 0, this.targetPosition.z - currentPosition.z);
+        this.axis.normalize();
+        this.bottle.setDirection(direction, this.axis);
     }
 
     render() {
@@ -59,8 +78,15 @@ export default class GamePage {
     addInitBlock() {
         const cuboidBlock = new Cuboid(-15, 0, 0);
         const cylinderBlock = new Cylinder(23, 0, 0);
+        this.targetPosition = {
+            x: 23,
+            y: 0,
+            z: 0
+        };
+        const initPosition = 0;
         this.scene.instance.add(cuboidBlock.instance);
         this.scene.instance.add(cylinderBlock.instance);
+        this.setDirection(initPosition);
     }
 
     addGround() {
