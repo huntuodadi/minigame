@@ -23,7 +23,7 @@ export default class GamePage {
         
     }
 
-    bindTouchEvent() {
+    bindTouchEvent = () => {
         canvas.addEventListener('touchstart', this.touchStartCallBack);
         canvas.addEventListener('touchend', this.touchEndCallBack);
     }
@@ -33,13 +33,19 @@ export default class GamePage {
         canvas.removeEventListener('touchend', this.touchEndCallBack);
     }
 
-    touchStartCallBack() {
-        console.log('touch start call back');
-        this.bottle.rotate();
+    touchStartCallBack = () => {
+        console.log('touch start call back:', this.bottle);
+        this.touchStartTime = Date.now();;
+        this.bottle.shrink();
+        
     }
 
-    touchEndCallBack() {
-        console.log('touch end call back');
+    touchEndCallBack = () => {
+        console.log('touch end call back:', this.bottle);
+        this.touchEndTime = Date.now();
+        const duration = this.touchEndTime - this.touchStartTime;
+        this.bottle.stop();
+        this.bottle.rotate();
     }
 
     render() {

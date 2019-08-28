@@ -2,6 +2,7 @@ import bottleConf from '../../confs/bottle-conf';
 import blockConf from '../../confs/block-conf';
 import animation from '../../libs/animation';
 const {customAnimation} = animation;
+const g = 9.8;
 class Bottle {
     constructor (x, y, z) {
         this.direction = 0;
@@ -13,7 +14,9 @@ class Bottle {
         this.obj = new THREE.Object3D();
         this.obj.name = 'bottle';
         this.obj.position.set(bottleConf.initPosition.x, bottleConf.initPosition.y + 30, bottleConf.initPosition.z);
-
+        this.status = 'stop';
+        this.scale = 1;
+        this.flyingTime = 0;
         // this.bottle 仅进行各个分部的组合
         this.bottle = new THREE.Object3D();
 
@@ -97,8 +100,34 @@ class Bottle {
         return {specularMaterial, middleMaterial, bottomMaterial};
     }
 
+    _shrink = () => {
+        const MIN_SCALE = 0.55;
+        const HORIZEN_DELTA_SCALE = 0.007;
+        const DELTA_SCALE = 0.005;
+        const HEAD_DELTA = 0.03;
+        this.scale -= DELTA_SCALE;
+        this.scale = Math.max(MIN_SCALE, this.scale);
+        if(this.scale <= MIN_SCALE) {
+            return;
+        }
+        this.body.scale.y = this.scale;
+        this.body.scale.x += HORIZEN_DELTA_SCALE;
+        this.body.scale.z += HORIZEN_DELTA_SCALE;
+        this.head.position.y -= HEAD_DELTA;
+
+        const bottleDeltaY = HEAD_DELTA / 2;
+        this.obj.position.y -= bottleDeltaY;
+    }
+
     update() {
+        if(this.status == 'shrink') {
+            this._shrink();
+        }else if(this.status == 'jump') {
+            const tickTime = Date.now(); - this.lastFrameTime;
+            this._jump(tickTime);
+        }
         this.head.rotation.y += 0.06;
+        this.lastFrameTime = Date.now();
     }
 
     showUp() {
@@ -113,6 +142,29 @@ class Bottle {
     setDirection(direction, axis) {
         this.direction = direction;
         this.axis = axis;
+    }
+
+    shrink = () => {
+        this.status = 'shrink';
+    }
+
+    stop = () => {
+        this.scale = 1;
+        this.status = 'stop';
+        this.flyingTime = 0;
+    }
+
+    jump = () => {
+        this.state = 'jump';
+    }
+
+    _jump = (tickTime) => {
+        const t = tickTime / 1000;
+        this.flyingTime = this.flyingTime + t;
+        // 水平方向
+        const translateH = this.velocity.vx * t;
+        const translateY = this.velocity.vyf * t - 0.5 * g * t * t - g * this.flyingTime * t;
+        this.obj.translateY(translateY);
     }
 
     rotate = () => {
