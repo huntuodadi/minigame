@@ -165,6 +165,7 @@ class Bottle {
         const translateH = this.velocity.vx * t;
         const translateY = this.velocity.vyf * t - 0.5 * g * t * t - g * this.flyingTime * t;
         this.obj.translateY(translateY);
+        this.obj.translateOnAxis(this.axis, translateH);
     }
 
     rotate = () => {
