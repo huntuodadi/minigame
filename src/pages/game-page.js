@@ -5,6 +5,7 @@ import ground from '../objects/ground';
 import bottle from '../objects/bottle';
 import blockConf from '../../confs/block-conf';
 import gameConf from '../../confs/game-conf';
+import bottleConf from '../../confs/bottle-conf';
 import utils from '../utils/index';
 
 const HIT_NEXT_BLOCK_CENTER = 1; 
@@ -19,6 +20,7 @@ export default class GamePage {
         this.callbacks = callbacks;
         this.touchStartCallBack = this.touchStartCallBack.bind(this);
         this.targetPosition = {};
+        this.checkingHit = false;
     }
     init() {
         this.scene = scene;
@@ -63,6 +65,7 @@ export default class GamePage {
         this.bottle.stop();
         const initY = blockConf.height - (1 - this.bottle.scale.y) * blockConf.height;
         this.hit = this.getHitStatus(this.bottle, this.currentBlock, this.nextBlock, initY);
+        this.checkingHit = true;
         this.bottle.rotate();
         this.bottle.jump();
     }
@@ -80,12 +83,38 @@ export default class GamePage {
     }
 
     render() {
+      if (this.currentBlock) {
+        this.currentBlock.update();
+      }
         this.scene.render();
         if(this.bottle) {
             this.bottle.update();
         }
+        if(this.checkingHit) {
+          this.checkBottleHit();
+        }
         requestAnimationFrame(this.render.bind(this));
     } 
+
+    checkBottleHit() {
+      if(this.bottle.instance.position.y <= blockConf.height / 2 &&
+        this.bottle.status == 'jump' &&
+        this.bottle.flyingTime > 0.3) {
+          this.checkingHit = true;
+          if(this.hit == HIT_NEXT_BLOCK_CENTER ||
+            this.hit == HIT_NEXT_BLOCK_NORMAL ||
+            this.hit == HIT_CURRENT_BLOCK) {
+              this.bottle.stop();
+              this.bottle.instance.position.y = blockConf.height / 2;
+              this.bottle.instance.position.x = this.bottle.destination[0];
+              this.bottle.instance.position.z = this.bottle.destination[1];
+          }else {
+            // game over
+            this.removeTouchEvent();
+            this.callbacks.showGameOverPage();
+          }
+      }
+    }
 
     addInitBlock() {
         this.currentBlock = new Cuboid(-15, 0, 0) 
@@ -115,11 +144,12 @@ export default class GamePage {
         let flyingTime = 2 * bottle.velocity.vy / gameConf.gravity;
         flyingTime = flyingTime.toFixed(2);
         const destination = [];
-        const bottlePosition = new THREE.Vector2(bottle.position.x, bottle.position.z);
+        const bottlePosition = new THREE.Vector2(bottle.instance.position.x, bottle.instance.position.z);
         const translate = new THREE.Vector2(this.axis.x, this.axis.z).setLength(flyingTime * this.bottle.velocity.vx);
         bottlePosition.add(translate);
-        bottle.destination = [+bottlePosition.x.toFixed(2), +bottlePosition.z.toFixed(2)];
-        destination.push(+bottlePosition.x.toFixed(2), +bottlePosition.z.toFixed(2));
+        console.log('bottlePosition:', bottlePosition);
+        bottle.destination = [+bottlePosition.x.toFixed(2), +bottlePosition.y.toFixed(2)];
+        destination.push(+bottlePosition.x.toFixed(2), +bottlePosition.y.toFixed(2));
 
         if (nextBlock) {
             var nextDiff = Math.pow(destination[0] - nextBlock.instance.position.x, 2) + Math.pow(destination[1] - nextBlock.instance.position.z, 2)
