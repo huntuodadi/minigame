@@ -1,35 +1,35 @@
-import GamePage from '../pages/game-page';
-import GameOverPage from '../pages/game-over-page';
+import GamePage from '../pages/game-page'
+import GameOverPage from '../pages/game-over-page'
+import Event from '../utils/event'
 
 class GameView {
-    constructor() {
+  constructor () {
+    this.restartButtonClicked = new Event(this)
+  }
 
-    }
+  showGameOverPage () {
+    // this.gamePage.hide()
+    this.gameOverPage.show()
+  }
 
-    showGameOverPage = () => {
-        this.gamePage.hide();
-        this.gameOverPage.show();
-    }
-    showGamePage = () => {
-        this.gameOverPage.hide();
-        this.gamePage.restart();
-        this.gamePage.show();
-    }
-    restartGame = () => {
-        this.gamePage.restart();
-    }
+  showGamePage () {
+    this.gameOverPage.hide()
+    this.gamePage.restart()
+    this.gamePage.show()
+  }
 
-    initGameOverPage(callbacks) {
-        this.gameOverPage = new GameOverPage(callbacks);
-        console.log('scene:', this.gamePage.scene);
-        this.gameOverPage.init({
-            scene: this.gamePage.scene
-        });
-    }
+  initGameOverPage (callbacks) {
+    this.gameOverPage = new GameOverPage(callbacks)
+    this.gameOverPage.init({
+      camera: this.gamePage.scene.camera.instance,
+      scene: this.gamePage.scene.instance
+    })
+  }
 
-    initGamePage(callbacks) {
-        this.gamePage = new GamePage(callbacks);
-        this.gamePage.init();
-    }
+  initGamePage (callbacks) {
+    this.gamePage = new GamePage(callbacks)
+    this.gamePage.init()
+  }
 }
-export default new GameView();
+
+export default new GameView()

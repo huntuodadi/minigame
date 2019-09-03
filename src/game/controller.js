@@ -1,44 +1,39 @@
-import gameView from './view';
-import gameModel from './model';
+import gameView from './view'
+import gameModel from './model'
 
 class GameController {
-    constructor () {
-        this.gameModel = gameModel;
-        this.gameView = gameView;
-        this.gameModel.stageChanged.attach((sender, args) => {
-            const stageName = args.stage;
-            switch (stageName) {
-                case 'game-over': 
-                    this.gameView.showGameOverPage();
-                    break;
-                case 'game':
-                    this.gameView.showGamePage()
-                    break;
-                default:
-            }
-        });
-    }
+  constructor () {
+    this.gameView = gameView
+    this.gameModel = gameModel
+    this.gameModel.stageChanged.attach((sender, args) => {
+      const stageName = args.stage
+      switch (stageName) {
+        case 'game-over':
+          this.gameView.showGameOverPage()
+          break
+        case 'game':
+          this.gameView.showGamePage()
+          break
+        default:
+      }
+    })
+  }
 
-    showGameOverPage = () => {
-        this.gameView.showGameOverPage();
+  initPages () {
+    const gamePageCallbacks = {
+      showGameOverPage: () => {
+        this.gameModel.setStage('game-over')
+      }
     }
-
-    restartGame = () => {
-        this.gameView.restartGame();
+    const gameOverPagesCallbacks = {
+      gameRestart: () => {
+        this.gameModel.setStage('game')
+      }
     }
-
-    initPages () {
-        const gamePageCallbacks = {
-            showGameOverPage: () => {
-                this.gameModel.setStage('game-over');
-            }
-        };
-        const gameOverPageCallbacks = () => {
-            this.gameModel.setStage('game');
-        }
-        this.gameView.initGamePage(gamePageCallbacks);
-        this.gameView.initGameOverPage(gameOverPageCallbacks);
-    }
+    this.gameView.initGamePage(gamePageCallbacks)
+    this.gameView.initGameOverPage(gameOverPagesCallbacks)
+    this.gameModel.setStage('game')
+  }
 }
 
-export default new GameController();
+export default new GameController()

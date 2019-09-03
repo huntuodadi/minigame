@@ -1,2 +1,3 @@
-export camera from './camera.js';
-export scene from './scene.js';
+export light from './light'
+export camera from './camera'
+export scene from './scene'
