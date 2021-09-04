@@ -123,6 +123,7 @@ class Bottle {
   }
 
   rotate () {    
+    console.log('r');
     const scale = 1.4
     this.human.rotation.z = this.human.rotation.x = 0
     if (this.direction == 0) { // x

@@ -155,8 +155,10 @@ var TweenAnimation = exports.TweenAnimation = function TweenAnimation(from, to, 
 
         // 当前的运动位置
 
+        // Linear: function Linear(t, b, c, d) {
+        //     return c * t / d + b;
+        // },
         var value = fnGetValue(start, from, to - from, during);
-
         // 如果还没有运动到位，继续
         if (start <= during && selfAnimationId > killAnimationId) {
             options.callback(value);

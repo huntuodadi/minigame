@@ -1,6 +1,6 @@
 var Tween = {
-  Linear: function Linear(t, b, c, d) {
-      return c * t / d + b;
+  Linear: function Linear(x, y0, Δy, Δx) {
+      return (Δy / Δx) * x + y0;
   },
   Quad: {
       easeIn: function easeIn(t, b, c, d) {

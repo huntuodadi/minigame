@@ -647,7 +647,7 @@
 			value: true
 		});
 		exports.default = Canvas;
-	
+	 
 		var _constructor = __webpack_require__(4);
 	
 		var _HTMLElement = __webpack_require__(5);
@@ -665,6 +665,7 @@
 		var hasInitWebGLContextConstructor = false;
 	
 		function Canvas() {
+			console.log('create canvas')
 			var canvas = wx.createCanvas();
 	
 			canvas.type = 'canvas';

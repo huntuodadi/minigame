@@ -16,6 +16,8 @@ class Light {
     this.shadowTarget = new THREE.Mesh(new THREE.PlaneGeometry(0.1, 0.1), basicMaterial)
     this.shadowTarget.visible = false
     this.shadowTarget.name = 'shadowTarget'
+    this.shadowTarget.position.set(10,10,10)
+    console.log('init shadow target position:', this.shadowTarget.position)
     shadowLight.target = this.shadowTarget
     shadowLight.shadow.camera.near = 0.5
     shadowLight.shadow.camera.far = 500
@@ -34,6 +36,8 @@ class Light {
   updatePosition (targetPosition) {
     customAnimation.to(this.shadowTarget.position, 0.5, {x: targetPosition.x, y: targetPosition.y, z: targetPosition.z})
     customAnimation.to(this.shadowLight.position, 0.5, {x: 10 + targetPosition.x, y: 30 + targetPosition.y, z: 20 + targetPosition.z})
+    // this.shadowLight.position.set(10, 30, 20)
+    // this.shadowTarget.position.set(0, 0, 0)
   }
 
   reset () {
