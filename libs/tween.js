@@ -1,12 +1,15 @@
+// t = x, b = y0, c = Δy, d = Δx
 var Tween = {
   Linear: function Linear(x, y0, Δy, Δx) {
       return (Δy / Δx) * x + y0;
-  },
+  },   
   Quad: {
       easeIn: function easeIn(t, b, c, d) {
+          // f(x) = (Δy/Δx^2)x^2 + y0
           return c * (t /= d) * t + b;
       },
       easeOut: function easeOut(t, b, c, d) {
+          // f(x) = (-Δy/Δx^2)(x-Δx)^2 + y0
           return -c * (t /= d) * (t - 2) + b;
       },
       easeInOut: function easeInOut(t, b, c, d) {
